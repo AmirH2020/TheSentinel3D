@@ -12,13 +12,13 @@ namespace TheSentinel
                 return;
 
             var NotTakeDamage = false;
-            var shield = SkillManager.GetSkill<Shield>().isActive;
+            var shield = SkillManager.GetSkill<Shield>()?.isActive ?? false;
 
             if (collision.CompareTag("Player"))
                 NotTakeDamage = PathChoice.InfinitePlayerHp || shield;
 
             if(collision.CompareTag("tower") && !collision.GetComponent<Collider>().isTrigger)
-                NotTakeDamage = SkillManager.GetSkill<TowerShield>().isActive || shield;
+                NotTakeDamage = (SkillManager.GetSkill<TowerShield>()?.isActive ?? false ) || shield;
 
             if(NotTakeDamage)
             {

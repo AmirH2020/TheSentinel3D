@@ -1,13 +1,15 @@
 ﻿using TheSentinel.Cores;
+using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 namespace TheSentinel
 {
     public abstract class Enemy : MonoBehaviour,IHpManager
     {
 
         protected float _stopDistance;
-
+        [SerializeField] protected Slider _hpSlider;
+        [SerializeField] protected TMP_Text _hpText;
         [SerializeField] protected float _moveSpeed;
         [SerializeField] protected GameObject _dieEffect;
         [SerializeField] private GameObject _damageEffect;

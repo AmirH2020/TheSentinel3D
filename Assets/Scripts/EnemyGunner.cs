@@ -1,4 +1,5 @@
 using TheSentinel.Cores;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,7 +46,7 @@ namespace TheSentinel
 
             _score = (int)(20 * temp);
 
-            hpManager.Initialize(6 * temp);
+            hpManager.Initialize(6 * temp, _hpSlider,_hpText);
         }
 
         public void Update()

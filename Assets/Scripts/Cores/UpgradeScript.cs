@@ -23,7 +23,7 @@ namespace TheSentinel.Cores
                 InitiateLists();
             if (TowerScript.Instance.HaveAnyTurret)
                 AddTurretUpgrades();
-            if (SkillManager.GetSkill<Shotgun>().HaveSkill)
+            if (SkillManager.GetSkill<Shotgun>()?.HaveSkill ?? false)
                 AddShotgunUpgrades();
         }
         private int CalculateUpgradeIndex(List<Upgrade> list, TMP_Text textAsset)
@@ -48,8 +48,8 @@ namespace TheSentinel.Cores
             ui.TogglePanel(ui.UpgradePanel, true);
             OnUpgrade = true;
 
-            CalculateUpgradeIndex(_firstUpgrades,_upgrade1Text);
-            CalculateUpgradeIndex(_secondUpgrades,_upgrade2Text);
+            _upgrade1Index = CalculateUpgradeIndex(_firstUpgrades,_upgrade1Text);
+            _upgrade2Index = CalculateUpgradeIndex(_secondUpgrades,_upgrade2Text);
 
             if (_upgrade1Index == -1 && _upgrade2Index == -1)
             {

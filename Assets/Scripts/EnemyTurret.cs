@@ -13,24 +13,19 @@ namespace TheSentinel
         public float FireRate,Damage;
         [HideInInspector] public Transform target;
         [HideInInspector] public float _fireRate;
-
         [HideInInspector] public bool CanShoot;
+        
         public bool isDestroyed {  get; private set; }
 
-        public void Destroy()
-        {
-            isDestroyed = true;
-        }
+        public void Destroy() => isDestroyed = true;
 
-        private void Awake()
+        protected override void Awake()
         {
             ModifyDamage(Damage);
+            hpManager.Initialize(0, _hpSlider, _hpText);
         }
-
-        protected override void ModifyDamage(float damage)
-        {
-            bullet.GetComponent<BulletScript>().ModifyDamage(damage);
-        }
+        protected override void ModifyDamage(float damage) => bullet.GetComponent<BulletScript>().ModifyDamage(damage);
+        
         protected override void Die()
         {
 

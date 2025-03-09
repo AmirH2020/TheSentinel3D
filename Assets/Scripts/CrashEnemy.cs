@@ -15,7 +15,7 @@ namespace TheSentinel
         {
             base.Awake();
             _stopDistance = 0;
-            hpManager.Initialize(1);
+            hpManager.Initialize(1, _hpSlider, _hpText);
         }
         public void Update()
         {
@@ -29,14 +29,14 @@ namespace TheSentinel
             if (distanceToTower < 0.5f)
             {
                 Die();
-                var shield = SkillManager.GetSkill<Shield>().isActive || SkillManager.GetSkill<TowerShield>().isActive;
+                var shield = (SkillManager.GetSkill<Shield>()?.isActive ?? false) || (SkillManager.GetSkill<TowerShield>()?.isActive ?? false);
                 if (!shield)
                     TowerScript.Instance.GetHPManager().ModifyHP(-_damage);
             }
             if (distanceToPlayer < 0.8f)
             {
                 Die();
-                var shieldOrInfinitePlayerHP = SkillManager.GetSkill<Shield>().isActive || PathChoice.InfinitePlayerHp;
+                var shieldOrInfinitePlayerHP = (SkillManager.GetSkill<Shield>()?.isActive ?? false) || PathChoice.InfinitePlayerHp;
 
                 if (!shieldOrInfinitePlayerHP)
                     PlayerScript.Instance.GetHPManager().ModifyHP(-_damage);

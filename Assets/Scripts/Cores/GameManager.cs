@@ -8,7 +8,7 @@ namespace TheSentinel.Cores
         public static int SkillPoint { get; private set; } = 0;
         public static int Score { get; private set; } = 0;
         public static bool OnSkillTree { get; private set; } = false;
-        public static bool OnPathPanel { get; private set; } = true;
+        public static bool OnPathPanel { get; private set; } = false;   
         public static bool OnPause { get; private set; } = false;
 
 

@@ -10,9 +10,10 @@ namespace TheSentinel.Cores
 
         [SerializeField] private Color RageColor;
         [SerializeField] private Slider _hpSlider;
-        [SerializeField] private Transform _gunPoint;
         [SerializeField] private TMP_Text _hpText;
         [SerializeField] private Image _hpFillImage;
+
+        [SerializeField] private Transform _gunPoint;
 
         private static float _moveSpeed;
         private float _initialMoveSpeed, _tempMoveSpeedChange, _hpDropValue = 7; 
@@ -33,7 +34,7 @@ namespace TheSentinel.Cores
             _initialMoveSpeed = 5;
             _moveSpeed = _initialMoveSpeed;
 
-            hpManager.Initialize(100);
+            hpManager.Initialize(100, _hpSlider, _hpText,_hpFillImage);
 
         }
         private void Update()

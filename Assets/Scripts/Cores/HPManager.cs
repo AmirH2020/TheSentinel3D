@@ -5,6 +5,7 @@ using System;
 
 namespace TheSentinel.Cores
 {
+    [Serializable]
     public class HPManager
     {
         protected float _hp, _maxHp;
@@ -15,8 +16,11 @@ namespace TheSentinel.Cores
         public Slider HpSlider => _hpSlider;
         protected TMP_Text _hpText;
 
-        public virtual void Initialize(float value)
+        public virtual void Initialize(float value, Slider hpSlider, TMP_Text hpText)
         {
+            _hpSlider = hpSlider;
+            _hpText = hpText;
+
             _maxHp = value;
             _hp = _maxHp;
             _hpSlider.maxValue = _maxHp;

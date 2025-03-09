@@ -15,16 +15,32 @@ namespace TheSentinel.Cores
 
         private void Start()
         {
-            _losePanel.SetActive(false);
-            _skillPanel.SetActive(false);
-            _syringePanel.SetActive(false);
-            _upgradePanel.SetActive(false);
-            _pathPanel.SetActive(true);
+            try
+            {
+                _losePanel.SetActive(false);
+                _skillPanel.SetActive(false);
+                _syringePanel.SetActive(false);
+                _upgradePanel.SetActive(false);
+                _pathPanel.SetActive(true);
+                _pausePanel.SetActive(false);
+            }
+            catch
+            {
+                Debug.LogError("Insert The Correct UI Please");
+            }
         }
 
         public void TogglePanel(GameObject panel, bool toggle)
         {
-            panel?.SetActive(toggle);
+            try
+            {
+
+                panel?.SetActive(toggle);
+            }catch
+            {
+                Debug.LogError("Insert The Correct UI Please");
+
+            }
         }
     }
 }

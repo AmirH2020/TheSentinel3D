@@ -13,13 +13,13 @@ namespace TheSentinel
         private float[] hpPercentPhases = new float[3] {75,45,20};
         private Animator _anim;
         private float _fireRateTimer;
-        private void Awake()
+        protected override void Awake()
         {
             _anim = GetComponent<Animator>();
-            leftTurret.GetHPManager().Initialize(100);
-            rightTurret.GetHPManager().Initialize(100);
+            leftTurret.GetHPManager().SetMaxHp(100);
+            rightTurret.GetHPManager().SetMaxHp(100);
             ModifyDamage(Damage);
-            hpManager.Initialize(500);
+            hpManager.Initialize(500,_hpSlider,_hpText);
         }
 
         private void Start()

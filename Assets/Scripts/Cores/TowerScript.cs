@@ -1,19 +1,27 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TheSentinel.Skills;
+using TMPro;
+using UnityEngine.UI;
 
 namespace TheSentinel.Cores
 {
     public class TowerScript : Singleton<TowerScript>,IHpManager
     {
+
         [SerializeField] private List<GameObject>  turrets = new List<GameObject>();
         public static bool PlayerInRange = false;
         public bool HaveAnyTurret {  get; private set; }
         public TowerHPManager hpManager { get; private set; }
+
+        [SerializeField] private Slider _hpSlider;
+        [SerializeField] private TMP_Text _hpText;
+
+
         private void Start()
         {
             hpManager = new TowerHPManager();
-            hpManager.Initialize(100);
+            hpManager.Initialize(100, _hpSlider, _hpText);
             
             foreach (GameObject turret in turrets)
                 turret.SetActive(false);       

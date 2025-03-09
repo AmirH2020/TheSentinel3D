@@ -83,7 +83,7 @@ namespace TheSentinel.Cores
             _reloadSlider.gameObject.SetActive(_reloading);
             _reloadSlider.value = (_gunStats[CurrentGunIndex].ReloadTime - _gunStats[CurrentGunIndex].TempReloadTime) - _reloadTimer;
 
-            if (_machineGun.isActive || _mechanicalShotgun.isActive) return;
+            if ((_machineGun?.isActive ?? false )|| (_mechanicalShotgun?.isActive ?? false)) return;
             
             if (_reloading)
             {
@@ -106,11 +106,11 @@ namespace TheSentinel.Cores
         {
             if (GameManager.OnPause || _fireRateTimer > 0)
                 return;
-            var noMachineGun = !_machineGun.isActive && !_mechanicalShotgun.isActive;
+            var noMachineGun = !(_machineGun?.isActive ?? false) && !(_mechanicalShotgun?.isActive ?? false);
             if (noMachineGun && _gunStats[CurrentGunIndex].Chamber <= 0 || _reloading)
                 return;
 
-            _fireRateTimer = noMachineGun ? _gunStats[CurrentGunIndex].FireRate - _gunStats[CurrentGunIndex].TempFireRate :
+            _fireRateTimer = noMachineGun ? _gunStats[CurrentGunIndex].FireRate - _gunStats[CurrentGunIndex].TempFireRate:
                 _machineGun.isActive ? _machineGun.FireRate : _mechanicalShotgun.FireRate;
             
             Quaternion rotation = Quaternion.Euler(transform.rotation.eulerAngles);
@@ -151,6 +151,7 @@ namespace TheSentinel.Cores
         {
             Gun gun = guns[id];
             _reloadSlider.maxValue = _gunStats[id].ReloadTime;
+
             CurrentGunIndex = id;
             _fireRateTimer = 0;
         }
