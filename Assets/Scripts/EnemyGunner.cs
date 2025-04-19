@@ -37,7 +37,7 @@ namespace TheSentinel
             _stopDistance = Random.Range(3f, 5f);
 
             float temp = Random.Range(1f, 3f);
-            if (SpawnerScript._enemyWaveManager.Wave <= 2 && temp > 2.5f)
+            if (SpawnerScript._enemyWaveManager?.Wave <= 2 && temp > 2.5f)
                 temp = 2.5f;
 
             _moveSpeed = 2.1f / temp;

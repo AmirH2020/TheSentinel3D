@@ -13,7 +13,7 @@ namespace TheSentinel
 
         protected virtual void Update()
         {
-            _rb.AddForce(transform.right * _bulletSpeed);
+            _rb.AddForce(transform.forward * _bulletSpeed);
             Destroy(gameObject, 3);
         }
 
@@ -39,8 +39,8 @@ namespace TheSentinel
                 Destroy(gameObject);
             }
 
-            if (other.CompareTag("tower"))
-                Destroy(gameObject);
+            //if (other.CompareTag("tower"))
+               // Destroy(gameObject);
         }
     }
 }

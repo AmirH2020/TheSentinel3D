@@ -24,7 +24,7 @@ namespace TheSentinel.Cores
             hpManager.Initialize(100, _hpSlider, _hpText);
             
             foreach (GameObject turret in turrets)
-                turret.SetActive(false);       
+                turret.SetActive(true);
         }
         public void Update()
         {
@@ -52,7 +52,7 @@ namespace TheSentinel.Cores
         private void Fade(float alpha)
         {
             var orgColor = GetComponent<Renderer>().material.color;
-            GetComponent<Renderer>().material.color = Color.Lerp(orgColor, new Color(orgColor.r, orgColor.g, orgColor.b, 0.3f), 0.05f);
+            GetComponent<Renderer>().material.color = Color.Lerp(orgColor, new Color(orgColor.r, orgColor.g, orgColor.b, alpha), 0.05f);
         }
         private static void TogglePlayerInRange(Collider other)
         {

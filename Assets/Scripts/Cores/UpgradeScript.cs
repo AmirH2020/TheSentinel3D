@@ -67,9 +67,9 @@ namespace TheSentinel.Cores
                     new Upgrade("+0.05s Main Gun Fire Rate", () => {GunScript.Instance.ModifyFireRate(0.05f,0); }),
                     new Upgrade("+150 Ammo",() => {GunScript.Instance.AddAmmo(150); }),
                     new Upgrade("+45% Move Speed", () => {UpgradeMethodes.GetMoveSpeed(45); }),
-                    new Upgrade("+10 Main Gun Capicity", () => {GunScript.Instance.ModifyMaxChamber(10,0); }),
+                    new Upgrade("+10 Main Gun Capacity", () => {GunScript.Instance.ModifyMaxChamber(10,0); }),
                     new Upgrade("+150 Ammo",() => {GunScript.Instance.AddAmmo(150); }),
-                    new Upgrade("+0.1s Main Gun Fire Rate", () => {GunScript.Instance.ModifyFireRate(0.1f,0); }),
+                    new Upgrade("+0.05s Main Gun Fire Rate", () => {GunScript.Instance.ModifyFireRate(0.05f,0); }),
                     new Upgrade("+25% Move Speed", () => {UpgradeMethodes.GetMoveSpeed(25); }),
                 };
             }
@@ -80,7 +80,7 @@ namespace TheSentinel.Cores
                     new Upgrade("+0.05s Main Gun Fire Rate", () => {GunScript.Instance.ModifyFireRate(0.05f,0); }),
                     new Upgrade("+45% Move Speed", () => {UpgradeMethodes.GetMoveSpeed(45); }),
                     new Upgrade("+20% Player Max HP", () => {UpgradeMethodes.SetMaxHp(20,PlayerScript.Instance); }),
-                    new Upgrade("+0.1s Main Gun Fire Rate", () => {GunScript.Instance.ModifyFireRate(0.1f,0); }),
+                    new Upgrade("+0.05s Main Gun Fire Rate", () => {GunScript.Instance.ModifyFireRate(0.05f,0); }),
                     new Upgrade("+25% Move Speed", () => {UpgradeMethodes.GetMoveSpeed(25); }),
                     new Upgrade("+20% Player Max HP", () => {UpgradeMethodes.SetMaxHp(20,PlayerScript.Instance); }),
                 };

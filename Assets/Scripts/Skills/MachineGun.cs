@@ -9,6 +9,7 @@ namespace TheSentinel.Skills
         public override void Initiation()
         {
             Initiate(10, 30, 3, 0, 5);
+            _activateKey = KeyCode.E;
             InitiateDescription("Machine Gun",
                 "Gives you an infinite ammo machine gun with high fire rate");
 

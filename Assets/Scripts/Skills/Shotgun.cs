@@ -5,15 +5,16 @@ namespace TheSentinel.Skills
     public class Shotgun : Skill,IDetails
     {
         private string _details;
-        [SerializeField] private Gun _shotGun;
 
         [SerializeField] private float _fireRateUpgrade, _reloadTimeUpgrade;
+
         private float _fireRate, _reloadTime;
 
         public override void Initiation()
         {
-            _fireRate = _shotGun.FireRate;
-            _reloadTime = _shotGun.ReloadTime;
+
+            _fireRate = SkillComponents.Instance.Shotgun.FireRate;
+            _reloadTime = SkillComponents.Instance.Shotgun.ReloadTime;
 
             InitiateDescription("Shotgun", "Gives a shotgun to the player that has high damage and high fire spread");
             Initiate(5);

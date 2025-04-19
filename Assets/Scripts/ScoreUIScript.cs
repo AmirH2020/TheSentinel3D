@@ -10,9 +10,7 @@ namespace TheSentinel
     public class ScoreUIScript : MonoBehaviour
     {
         [SerializeField] private GameObject _newPointText;
-        [SerializeField] private TMP_Text _skillPointText;
-
-
+        [SerializeField] private TMP_Text _scoreText;
         private Slider _scoreSlider;
         private bool _newPoint;
 
@@ -26,7 +24,7 @@ namespace TheSentinel
         void Update()
         {
             _scoreSlider.value = GameManager.Score;
-            _skillPointText.text = "Skill Points : " + GameManager.SkillPoint.ToString();
+            _scoreText.text = (GameManager.Score).ToString() + "/" + ((int)_scoreSlider.maxValue).ToString();
             _newPointText.gameObject.SetActive(_newPoint);
 
             if (_scoreSlider.value >= _scoreSlider.maxValue)
@@ -39,9 +37,7 @@ namespace TheSentinel
             }
 
             if (_newPoint && GameManager.OnSkillTree)
-            {
                 _newPoint = false;
-            }
         }
     }
 }

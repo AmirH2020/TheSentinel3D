@@ -18,6 +18,7 @@ namespace TheSentinel
 
         [SerializeField] private List<GameObject> _enemies;
         [SerializeField] private float _spawnTime;
+        [SerializeField] private float _initialSpawnTime;
         [SerializeField] private SpawnBoundaries<Transform> _spawnBoundaries;
         public static WaveManager _enemyWaveManager { get; private set; }
         private EnemySpawner _enemySpawner;
@@ -28,7 +29,7 @@ namespace TheSentinel
         {
             _enemyWaveManager = new WaveManager(_waveText,this,_spawnTime);
 
-            _enemySpawner = new EnemySpawner(_enemies, _spawnTime, _enemyWaveManager, _spawnBoundaries);
+            _enemySpawner = new EnemySpawner(_enemies, _spawnTime, _initialSpawnTime, _enemyWaveManager, _spawnBoundaries);
 
             StartCoroutine(_enemyWaveManager.WaveText());
         }

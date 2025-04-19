@@ -8,7 +8,7 @@ namespace TheSentinel.Cores
         public static bool InfinitePlayerHp = false;
         public static bool ChoiceMade => InfiniteAmmo || InfinitePlayerHp;
 
-        UIManager ui = UIManager.Instance;
+
 
         public static void ResetPathChoice()
         {
@@ -18,12 +18,12 @@ namespace TheSentinel.Cores
         public void GetInfiniteAmmo()
         {
             InfiniteAmmo = true;
-            ui.TogglePanel(ui.PathPanel,false);
+            UIManager.Instance.TogglePanel(UIManager.Instance.PathPanel,false);
         }
         public void GetInfinitePlayerHp()
         {
             InfinitePlayerHp = true;
-            ui.TogglePanel(ui.PathPanel, false);
+            UIManager.Instance.TogglePanel(UIManager.Instance.PathPanel, false);
 
         }
     }

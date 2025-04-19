@@ -7,14 +7,13 @@ namespace TheSentinel.Skills
     public class Shield : DurationAbility, IDuration, ICooldown
     {
         GameObject _playerShield, _towerShield;
-        [SerializeField] private GameObject _shieldEffect;
-
         public override void Initiation()
         {
             Initiate(20, 50, 3, 0, 5);
             InitiateDescription("Shield", "Gives you and the tower a shield");
-            _playerShield = Object.Instantiate(_shieldEffect, PlayerScript.Instance.transform);
-            _towerShield = Object.Instantiate(_shieldEffect, TowerScript.Instance.transform);
+            _activateKey = KeyCode.Q;
+            _playerShield = Object.Instantiate(SkillComponents.Instance.ShieldEffect, PlayerScript.Instance.transform);
+            _towerShield = Object.Instantiate(SkillComponents.Instance.TowerShieldEffect, TowerScript.Instance.transform);
         }
         public override void Update()
         {

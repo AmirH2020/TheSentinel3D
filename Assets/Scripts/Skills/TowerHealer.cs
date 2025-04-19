@@ -10,6 +10,7 @@ namespace TheSentinel.Skills
         public override void Initiation()
         {
             Initiate(0, 30, 0, 5, 5);
+            _activateKey = KeyCode.H;
             PathChoiceSkill(true, true);
             InitiateDescription("Tower Healer", "Heals the tower!");
             
@@ -20,6 +21,7 @@ namespace TheSentinel.Skills
         public override void Update()
         {
             UI();
+            _cooldownTimer = Mathf.Max(0, _cooldownTimer - Time.deltaTime);
             bool activationCondition = Input.GetKeyDown(_activateKey) && HaveSkill && _cooldownTimer <= 0;
             if (activationCondition)
             {

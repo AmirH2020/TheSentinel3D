@@ -21,6 +21,7 @@ namespace TheSentinel.Skills
         public override void Update()
         {
             PathChoiceSkill(false, true);
+
             var ui = UIManager.Instance;
             ui.TogglePanel(ui.SyringePanel, TowerScript.PlayerInRange && HaveSkill);
 

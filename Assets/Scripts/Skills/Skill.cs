@@ -9,17 +9,12 @@ namespace TheSentinel.Skills
         public string Description { get; protected set; }
 
         protected int _level, _maxLevel;
-        public int Level => _level;
-        public int MaxLevel => _maxLevel;
-        public int Price;
+        public int Price { get; protected set; }
         public bool Completed => _level >= _maxLevel;
-
-        public Image image;
-        public TMP_Text levelText;
+        public Button button { get; private set; }
 
         public bool Locked;
         public bool HaveSkill { get; protected set; }
-
         public abstract void Initiation();
         public abstract void Update();
         protected virtual void Initiate(int maxLevel)
@@ -27,20 +22,18 @@ namespace TheSentinel.Skills
             _level = 0;
             _maxLevel = maxLevel;
             HaveSkill = false;
+            Price = 1; 
         }
-
         protected void InitiateDescription(string name, string description)
         {
             Name = name;
             Description = description;
         }
-
-
         protected void PathChoiceSkill(bool inPlayerHpPath,bool inInfiniteAmmoPath)
         {
             if (PathChoice.ChoiceMade)
             {
-                image.gameObject.SetActive((inPlayerHpPath && PathChoice.InfinitePlayerHp) || (inInfiniteAmmoPath && PathChoice.InfiniteAmmo));
+                button?.gameObject.SetActive((inPlayerHpPath && PathChoice.InfinitePlayerHp) || (inInfiniteAmmoPath && PathChoice.InfiniteAmmo));
             }
         }
         public virtual void GetSkill() { }
@@ -59,6 +52,11 @@ namespace TheSentinel.Skills
             else
                 UpgradeSkill();
             _level++;
+        }
+
+        public void SetButton(Button button)
+        {
+            this.button = button;
         }
         
     }

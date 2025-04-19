@@ -14,11 +14,12 @@ namespace TheSentinel
 
         private SpawnBoundaries<float> _spawnBoundaries;
 
-        public EnemySpawner(List<GameObject> enemies, float spawnTime, WaveManager waveManager,SpawnBoundaries<Transform> spawnBoundaries)
+        public EnemySpawner(List<GameObject> enemies, float spawnTime,float initialSpawnTime, WaveManager waveManager,SpawnBoundaries<Transform> spawnBoundaries)
         {
             _spawnBoundaries = new SpawnBoundaries<float>();
             _enemies = enemies;
             _spawnTime = spawnTime;
+            _spawnTimer = initialSpawnTime;
             _waveManager = waveManager;
             CalculateSpawnBoundaries(spawnBoundaries);
         }

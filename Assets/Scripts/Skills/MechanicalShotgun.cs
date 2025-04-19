@@ -12,6 +12,7 @@ namespace TheSentinel.Skills
             Initiate(10, 40, 3, 0, 5);
             InitiateDescription("Mechanical Shotgun",
                 "Gives you a high fire Rate Shotgun \n Have Fun");
+            _activateKey = KeyCode.F;
             FireRate = 0.2f;
         }
 

@@ -34,7 +34,6 @@ namespace TheSentinel.Cores
         {
             try
             {
-
                 panel?.SetActive(toggle);
             }catch
             {

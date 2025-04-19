@@ -3,21 +3,22 @@ using UnityEngine.UI;
 
 namespace TheSentinel.Skills
 {
+
     public abstract class DurationAbility : Ability,IDuration,ICooldown
     {
-        [SerializeField] protected Slider _durationSlider;
+
         protected bool _activationCondition = false;
         protected override void Initiate(float _duration, float _cooldown, float _durationUpgrade, float _cooldownUpgrade, int maxLevel)
         {
             base.Initiate(_duration, _cooldown, _durationUpgrade, _cooldownUpgrade, maxLevel);
-            _durationSlider.maxValue = _duration;
+            abilityUI.durationSlider.maxValue = _duration;
         }
 
         protected override void UI()
         {
             base.UI();
-            if (isActive) _durationSlider.value = _durationTimer;
-            _durationSlider.gameObject.SetActive(isActive);
+            if (isActive) abilityUI.durationSlider.value = _durationTimer;
+            abilityUI.durationSlider.gameObject.SetActive(isActive);
         }
 
         public override void Update()

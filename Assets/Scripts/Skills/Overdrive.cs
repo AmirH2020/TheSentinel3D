@@ -12,6 +12,7 @@ namespace TheSentinel.Skills
             Initiate(20, 40, 3, 0, 5);
             InitiateDescription("Overdrive",
                 "Increases your fire rate for a duration");
+            _activateKey = KeyCode.E;
         }
 
         public override void Update()
@@ -19,8 +20,9 @@ namespace TheSentinel.Skills
             base.Update();
             PathChoiceSkill(inPlayerHpPath: false, inInfiniteAmmoPath: true);
 
-            GunScript.Instance.ModifyFireRateTemporarily(isActive ? 0.3f : 0, 1);
-            GunScript.Instance.ModifyFireRateTemporarily(isActive ? 0.2f : 0, 1);
+            GunScript.Instance.ModifyFireRateTemporarily(isActive ? 0.25f : 0, 0);
+            GunScript.Instance.ModifyFireRateTemporarily(isActive ? 0.15f : 0, 1);
+
 
             if (PathChoice.ChoiceMade && !innateGiven && PathChoice.InfiniteAmmo)
             {
