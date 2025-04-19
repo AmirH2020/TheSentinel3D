@@ -15,7 +15,6 @@ namespace TheSentinel
         {
             _rb.AddForce(transform.forward * _bulletSpeed);
             Destroy(gameObject, 3);
-            //fuck this
         }
 
 
