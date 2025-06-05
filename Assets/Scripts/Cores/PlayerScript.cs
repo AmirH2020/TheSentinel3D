@@ -35,7 +35,7 @@ namespace TheSentinel.Cores
             _moveSpeed = _initialMoveSpeed;
 
             hpManager.Initialize(100, _hpSlider, _hpText,_hpFillImage);
-
+            originalColor = GetComponent<MeshRenderer>().material.color;
         }
         private void Update()
         {
@@ -43,7 +43,7 @@ namespace TheSentinel.Cores
             Turning();
             hpManager.HPUI();
             hpManager.HPLogic(null);
-            //Rage mode color change
+            GetComponent<MeshRenderer>().material.color = _rageMode ? RageColor : originalColor;
         }
 
         private void FixedUpdate() => Movement();

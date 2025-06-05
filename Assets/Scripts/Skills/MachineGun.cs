@@ -19,7 +19,7 @@ namespace TheSentinel.Skills
         public override void Update()
         {
             base.Update();
-            PathChoiceSkill(inPlayerHpPath: true, inInfiniteAmmoPath: false);
+            PathChoiceSkill(inInfiniteAmmoPath: false,inPlayerHpPath: true);
 
             _activationCondition = Input.GetKeyDown(_activateKey) && HaveSkill && _cooldownTimer <= 0 && !SkillManager.GetSkill<MechanicalShotgun>().isActive;
         }

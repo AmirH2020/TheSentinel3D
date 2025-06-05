@@ -18,6 +18,4 @@ namespace TheSentinel.Cores
             hpManager.SetHp(hpManager.MaxHP * temp);
         }
     }
-
-
 }

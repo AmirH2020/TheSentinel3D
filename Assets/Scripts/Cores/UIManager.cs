@@ -38,7 +38,6 @@ namespace TheSentinel.Cores
             }catch
             {
                 Debug.LogError("Insert The Correct UI Please");
-
             }
         }
     }

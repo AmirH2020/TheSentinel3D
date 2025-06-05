@@ -11,8 +11,8 @@ namespace TheSentinel.Cores
         public static bool OnPathPanel { get; private set; } = true;   
         public static bool OnPause { get; private set; } = false;
 
-
         private static bool _lost = false;
+        
         private bool _manualPause;
 
         private void Update()

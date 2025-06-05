@@ -9,20 +9,17 @@ namespace TheSentinel.Cores
 {
     public class GunScript : Singleton<GunScript>
     {
-        public static int CurrentGunIndex;
 
         [SerializeField] private float _switchGunTime;
         [SerializeField] private KeyCode _switchGunKey;
-        [SerializeField] private List<Gun> guns = new List<Gun>();
-        [SerializeField] private List<Gun> allGuns = new List<Gun>();
+        [SerializeField] private List<Gun> guns = new List<Gun>() , allGuns = new List<Gun>();
         [SerializeField] private Gun _shotGun;
         [SerializeField] private Transform _gunPoint;
-
         [SerializeField] private Slider _reloadSlider;
 
+        private int _currentGunIndex,_bullets;
         private bool _reloading = false;
         private float _reloadTimer, _fireRateTimer, _switchGunTimer;
-        private int _bullets;
         private List<GunStats> _gunStats = new List<GunStats>();
         private MachineGun _machineGun;
         private MechanicalShotgun _mechanicalShotgun;
@@ -33,7 +30,7 @@ namespace TheSentinel.Cores
             _mechanicalShotgun = SkillManager.GetSkill<MechanicalShotgun>();
             _bullets = 150;
             InitiatingGunStats();
-            _reloadSlider.maxValue = _gunStats[CurrentGunIndex].ReloadTime - _gunStats[CurrentGunIndex].TempReloadTime;
+            _reloadSlider.maxValue = _gunStats[_currentGunIndex].ReloadTime - _gunStats[_currentGunIndex].TempReloadTime;
             _reloadSlider.gameObject.SetActive(false);
             AssignGun(0);
         }
@@ -56,9 +53,9 @@ namespace TheSentinel.Cores
             if (MachineGunsActive[0] || MachineGunsActive[1]) _reloading = false;
 
 
-            if (MachineGunsActive[0] && CurrentGunIndex == 1)
+            if (MachineGunsActive[0] && _currentGunIndex == 1)
                 AssignGun(0);
-            else if (MachineGunsActive[1] && CurrentGunIndex == 0)
+            else if (MachineGunsActive[1] && _currentGunIndex == 0)
                 AssignGun(1);
 
         }
@@ -69,7 +66,7 @@ namespace TheSentinel.Cores
 
             if (!_reloading && _switchGunTimer <= 0)
             {
-                int temp = CurrentGunIndex + 1;
+                int temp = _currentGunIndex + 1;
                 if (temp >= guns.Count)
                 {
                     temp = 0;
@@ -81,7 +78,7 @@ namespace TheSentinel.Cores
         private void Reloading()
         {
             _reloadSlider.gameObject.SetActive(_reloading);
-            _reloadSlider.value = (_gunStats[CurrentGunIndex].ReloadTime - _gunStats[CurrentGunIndex].TempReloadTime) - _reloadTimer;
+            _reloadSlider.value = (_gunStats[_currentGunIndex].ReloadTime - _gunStats[_currentGunIndex].TempReloadTime) - _reloadTimer;
 
             if ((_machineGun?.isActive ?? false) || (_mechanicalShotgun?.isActive ?? false)) return;
 
@@ -94,12 +91,12 @@ namespace TheSentinel.Cores
                 return;
             }
 
-            if ((_bullets <= 0 && !PathChoice.InfiniteAmmo) || _gunStats[CurrentGunIndex].Chamber >= _gunStats[CurrentGunIndex].MaxChamber) return;
+            if ((_bullets <= 0 && !PathChoice.InfiniteAmmo) || _gunStats[_currentGunIndex].Chamber >= _gunStats[_currentGunIndex].MaxChamber) return;
 
-            if (_gunStats[CurrentGunIndex].Chamber <= 0 || Input.GetKeyDown(KeyCode.R))
+            if (_gunStats[_currentGunIndex].Chamber <= 0 || Input.GetKeyDown(KeyCode.R))
             {
                 _reloading = true;
-                _reloadTimer = _gunStats[CurrentGunIndex].ReloadTime - _gunStats[CurrentGunIndex].TempReloadTime;
+                _reloadTimer = _gunStats[_currentGunIndex].ReloadTime - _gunStats[_currentGunIndex].TempReloadTime;
             }
         }
         private void Shoot()
@@ -107,32 +104,38 @@ namespace TheSentinel.Cores
             if (GameManager.OnPause || _fireRateTimer > 0)
                 return;
             var noMachineGun = !(_machineGun?.isActive ?? false) && !(_mechanicalShotgun?.isActive ?? false);
-            if (noMachineGun && _gunStats[CurrentGunIndex].Chamber <= 0 || _reloading)
+            if (noMachineGun && _gunStats[_currentGunIndex].Chamber <= 0 || _reloading)
                 return;
 
-            _fireRateTimer = noMachineGun ? _gunStats[CurrentGunIndex].FireRate - _gunStats[CurrentGunIndex].TempFireRate :
+            _fireRateTimer = noMachineGun ? _gunStats[_currentGunIndex].FireRate - _gunStats[_currentGunIndex].TempFireRate :
                 _machineGun.isActive ? _machineGun.FireRate : _mechanicalShotgun.FireRate;
 
-            _gunStats[CurrentGunIndex].Chamber--;
+            _gunStats[_currentGunIndex].Chamber--;
+            AmmoUIManager.Instance.AmmoReduce();
 
-             
-            Quaternion rotation = Quaternion.Euler(transform.rotation.eulerAngles);
-            for (int i = 0; i < guns[CurrentGunIndex].Spread; i++)
+            Vector3 r = transform.rotation.eulerAngles;
+            r.Set(r.x, r.y + 90, r.z);
+            Quaternion rotation = Quaternion.Euler(r);
+            bool isSpreadEven = guns[_currentGunIndex].Spread % 2 == 0;
+            for (int i = 0; i < guns[_currentGunIndex].Spread; i++)
             {
                 float offset = Mathf.Pow(-1, i);
-                int counter = guns[CurrentGunIndex].Spread % 2 != 0 ? i : i + 1;
-                rotation = Quaternion.Euler(rotation.eulerAngles + new Vector3(0, (90) + offset * counter * (15f / guns[CurrentGunIndex].Spread), 0));
-                Instantiate(_gunStats[CurrentGunIndex].BulletObject, _gunPoint.position, rotation);
+                int counter = isSpreadEven ? i + 1 : i;
+                rotation = Quaternion.Euler(rotation.eulerAngles + new Vector3(0,offset * counter * (15f / guns[_currentGunIndex].Spread), 0));
+                Instantiate(_gunStats[_currentGunIndex].BulletObject, _gunPoint.position, rotation);
             }
         }
         private void Reload()
         {
-            var MissingAmmo = _gunStats[CurrentGunIndex].MaxChamber - _gunStats[CurrentGunIndex].Chamber;
-            _gunStats[CurrentGunIndex].Chamber = _bullets >= MissingAmmo || PathChoice.InfiniteAmmo ? _gunStats[CurrentGunIndex].MaxChamber
-                : _gunStats[CurrentGunIndex].Chamber + _bullets;
+            var MissingAmmo = _gunStats[_currentGunIndex].MaxChamber - _gunStats[_currentGunIndex].Chamber;
+           
+            _gunStats[_currentGunIndex].Chamber = _bullets >= MissingAmmo || PathChoice.InfiniteAmmo ? _gunStats[_currentGunIndex].MaxChamber
+                : _gunStats[_currentGunIndex].Chamber + _bullets;
             _bullets = _bullets >= MissingAmmo && !PathChoice.InfiniteAmmo ? _bullets - MissingAmmo : 0;
+            AmmoUIManager.Instance.Reload(_gunStats[_currentGunIndex].Chamber);
             _reloading = false;
             _reloadSlider.gameObject.SetActive(_reloading);
+
         }
         private void InitiatingGunStats()
         {
@@ -158,7 +161,8 @@ namespace TheSentinel.Cores
 
             _reloadSlider.maxValue = _gunStats[id].ReloadTime;
 
-            CurrentGunIndex = id;
+            _currentGunIndex = id;
+            AmmoUIManager.Instance.ModifyBullets(_gunStats[id].Chamber, _gunStats[id].MaxChamber);
             _fireRateTimer = 0;
         }
         public void ModifyDamageTemporarily(float value, int index) {if (index < _gunStats.Count)_gunStats[index].Bullet.SetDamage(_gunStats[index].Damage + value);}

@@ -11,24 +11,24 @@ namespace TheSentinel.Skills
 {
     public class SkillManager : MonoBehaviour
     {
+        public static Skill _currentSkill { get; private set; }
 
         private static Dictionary<int, Skill> _skills = new Dictionary<int, Skill>();
         [SerializeField] private TMP_Text _name, _description, _duration, _cooldown, _details, _upgradeButtonText, _skillPointText, _currentSkillPrice;
         [SerializeField] private List<Button> _skillButtons;
         [SerializeField] private List<AbilityUI> abilityUIs;
-        public static Skill _currentSkill { get; private set; }
         [SerializeField] protected Button _upgradeButton;
         [SerializeField] private Color _canUpgradeColor, _cantUpgradeColor, _completedColor;
         private bool _completed;
         
+
+
         private void Awake()
         {
             _skills.Clear();
             Initialize();
             _currentSkill = _skills[0];
 
-
-            
             int abilityIndex = 0;
             int buttonIndex = 0;
             foreach(Button button in _skillButtons)
@@ -43,6 +43,8 @@ namespace TheSentinel.Skills
                     abilityIndex++;
                 }
                 skill.Initiation();
+
+
 
                 if(buttonIndex < _skillButtons.Count)
                 {
@@ -127,12 +129,5 @@ namespace TheSentinel.Skills
         }
         public static T GetSkill<T>() where T : Skill => _skills.Values.OfType<T>().FirstOrDefault();
 
-    }
-    public static class SkillButton
-    {
-        public static TMP_Text GetText(this Button b)
-        {
-            return b.GetComponentInChildren<TMP_Text>();
-        }
     }
 }

@@ -23,5 +23,4 @@ namespace TheSentinel.Skills
             _activationCondition = Input.GetKeyDown(_activateKey) && HaveSkill && _cooldownTimer <= 0;
         }
     }
-
 }

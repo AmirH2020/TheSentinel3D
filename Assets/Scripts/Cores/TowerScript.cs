@@ -24,7 +24,7 @@ namespace TheSentinel.Cores
             hpManager.Initialize(100, _hpSlider, _hpText);
             
             foreach (GameObject turret in turrets)
-                turret.SetActive(true);
+                turret.SetActive(false);
         }
         public void Update()
         {

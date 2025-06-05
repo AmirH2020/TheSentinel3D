@@ -15,6 +15,9 @@ namespace TheSentinel
         private float _shootTime,_shootTimer;
         private Transform[] _shootTargets = new Transform[2];
         private EnemyBullet _bulletScript;
+
+
+        Quaternion _shootRotation;
         protected override void Awake()
         {
             base.Awake();
@@ -66,6 +69,8 @@ namespace TheSentinel
         }
         private void LookAtTarget()
         {
+
+            
             Vector3 PlayerPos = _shootTargets[_targetIndex].position;
 
             Vector3 pos = PlayerPos - transform.position;
@@ -75,10 +80,14 @@ namespace TheSentinel
             r.Set(r.x, r.y - 90, r.z);
 
             transform.rotation = Quaternion.Euler(r);
+            r = rot.eulerAngles;
+            r.Set(r.x, r.y, r.z);
+            _shootRotation = Quaternion.Euler(r);
+
         }
         void Shoot()
         {
-            Instantiate(_bullet.gameObject, _gunPoint.position, transform.rotation);
+            Instantiate(_bullet.gameObject, _gunPoint.position, _shootRotation);
         }
         protected override void Die()
         {

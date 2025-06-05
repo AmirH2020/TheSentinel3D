@@ -9,17 +9,26 @@ namespace TheSentinel.Skills
         private string _details;
         private bool _active;
 
-        [SerializeField] private float _fireRate, _damage, _moveSpeed;
-        [SerializeField] private float _fireRateUpgrade, _damageUpgrade, _moveSpeedUpgrade;
+        private float _fireRate, _damage, _moveSpeed;
+        private float _fireRateUpgrade, _damageUpgrade, _moveSpeedUpgrade;
 
         public override void Initiation()
         {
             InitiateDescription("Tower Rage", "if the tower has less than 30% hp the player goes into a rage mode which gives him more fire rate, damage and move speed ");
 
             _details = "Damage : +" + _damage+ "\nFirerate: -" + _fireRate + "s\n_Move speed : +" + _moveSpeed;
-            
+
+            _fireRate = 0.05f;
+            _fireRateUpgrade = 0.01f;
+            _damage = 2;
+            _damageUpgrade = 1;
+            _moveSpeed = 2;
+            _moveSpeedUpgrade = 1;
+
             _maxLevel = 5;
             _active = false;
+
+
         }
 
         public override void Update()
@@ -45,9 +54,12 @@ namespace TheSentinel.Skills
 
         private void ApplyModifiers(float damage,float fireRate,float moveSpeed)
         {
-            GunScript.Instance.ModifyDamageTemporarily(damage, GunScript.CurrentGunIndex);
-            GunScript.Instance.ModifyFireRateTemporarily(fireRate, GunScript.CurrentGunIndex);
-            PlayerScript.Instance.ModifyMoveSpeedTemporarily(moveSpeed, GunScript.CurrentGunIndex);
+            GunScript.Instance.ModifyDamageTemporarily(damage, 0);
+            GunScript.Instance.ModifyDamageTemporarily(damage, 1);
+            GunScript.Instance.ModifyFireRateTemporarily(fireRate, 0);
+            GunScript.Instance.ModifyFireRateTemporarily(fireRate, 1);
+            PlayerScript.Instance.ModifyMoveSpeedTemporarily(moveSpeed, 0);
+            PlayerScript.Instance.ModifyMoveSpeedTemporarily(moveSpeed, 1);
         }
 
         public override void GetSkill() => HaveSkill = true;
