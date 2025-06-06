@@ -39,9 +39,6 @@ namespace TheSentinel.Cores
 
 
             var generalFilterList = _allUpgrades.Except(_gotUpgrades).Where(t => t.unlockCondition == true).ToList();
-
-
-
             var sameColorList = generalFilterList.Where(t => t.color == _lastChosenColor).ToList();
             var notSameColorList = generalFilterList.Where(t => t.color != _lastChosenColor).GroupBy(t => t.color).Select(g => g.First()).ToList();
             var differentColorList = generalFilterList.GroupBy(t => t.color).Select(g => g.First()).ToList();

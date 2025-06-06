@@ -9,7 +9,6 @@ public class GradiantSlider : MonoBehaviour
     [SerializeField] private Image _fillImage;
     private Color _currentColor;
     private float _hueValue;
-    private float _hueValue1;
 
     private void Awake()
     {
@@ -20,7 +19,7 @@ public class GradiantSlider : MonoBehaviour
 
     private void Update()
     {
-        _hueValue = 120 - (_slider.value * 120);
+        _hueValue = 120 - (_slider.value/_slider.maxValue * 120);
         _currentColor = Color.HSVToRGB(_hueValue/360, 1, 65f / 100);
         _fillImage.color = _currentColor;
     }

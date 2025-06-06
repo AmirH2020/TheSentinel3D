@@ -6270,7 +6270,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 20
   m_WholeNumbers: 0
   m_Value: 0.37
   m_OnValueChanged:
@@ -7050,6 +7050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _switchGunTime: 1
+  _maxOverheat: 20
   _switchGunKey: 120
   guns:
   - {fileID: 11400000, guid: 5977107f180766f438fef8e5df915aca, type: 2}
@@ -11681,6 +11682,9 @@ MonoBehaviour:
   - {fileID: 836573496}
   - {fileID: 1626349571}
   _bulletImage: {fileID: 9053440396745686945, guid: c8fa9a69b39f9b34b81f636af99f978c, type: 3}
+  _overheatObjectUI: {fileID: 779976218}
+  _ammoObjectUI: {fileID: 1336220709}
+  _overheatSlider: {fileID: 779976221}
 --- !u!114 &1336220712
 MonoBehaviour:
   m_ObjectHideFlags: 0
