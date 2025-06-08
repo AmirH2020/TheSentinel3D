@@ -20,7 +20,7 @@ namespace TheSentinel.Cores
 
         private int _currentGunIndex,_bullets;
         private bool _reloading = false,_overheated;
-        private float _reloadTimer, _fireRateTimer, _switchGunTimer,_overheat;
+        private float _reloadTimer, _fireRateTimer, _switchGunTimer,_overheat, _overheatingRate = 1;
         private List<GunStats> _gunStats = new List<GunStats>();
         private Ability _machineGun,_mechanicalShotgun;
 
@@ -39,11 +39,10 @@ namespace TheSentinel.Cores
             Reloading();
             CheckAndSwitchGuns();
 
-
             _fireRateTimer = Mathf.Max(0, _fireRateTimer - Time.deltaTime);
             _switchGunTimer = Mathf.Max(0, _switchGunTimer - Time.deltaTime);
 
-            if (_overheat > 0 && !Input.GetMouseButton(0))
+            if(_overheat > 0 && (_overheated || !Input.GetMouseButton(0)))
                 _overheat -= Time.deltaTime * _coolingDownValue;
             else if (_overheat <= 0)
                 _overheated = false;
@@ -52,16 +51,13 @@ namespace TheSentinel.Cores
 
             _ammoText.gameObject.SetActive(PathChoice.ChoiceMade && PathChoice.InfinitePlayerHp);
             _ammoText.text = string.Format($"AMMO : {_bullets}");
+
             if (PathChoice.ChoiceMade)
             {
                 AmmoUIManager.Instance.DefineAmmoUI(PathChoice.InfiniteAmmo);
-
-
-
+                if (PathChoice.InfiniteAmmo)
+                    AmmoUIManager.Instance.ModifySlider(_overheat);
             }
-            if (PathChoice.ChoiceMade && PathChoice.InfiniteAmmo)
-                AmmoUIManager.Instance.ModifySlider(_overheat);
-
 
             if (Input.GetKeyDown(_switchGunKey)) SwitchGun();
             if (Input.GetMouseButton(0)) Shoot();
@@ -139,7 +135,7 @@ namespace TheSentinel.Cores
             }
             else
             {
-                _overheat++;
+                _overheat += _overheatingRate;
             }
             Vector3 r = transform.rotation.eulerAngles;
             r.Set(r.x, r.y + 90, r.z);
@@ -198,7 +194,13 @@ namespace TheSentinel.Cores
         public void ModifyFireRate(float value, int index) { if (index < _gunStats.Count) _gunStats[index].FireRate -= value; }
         public void ModifyReloadTime(float value, int index) { if (index < _gunStats.Count) _gunStats[index].ReloadTime -= value;}
         public void AddAmmo(int value) => _bullets += value;
-        public void ModifyMaxChamber(int value, int index)  { if (index < _gunStats.Count) _gunStats[index].MaxChamber += value; }
+        public void ModifyMaxChamber(int value, int index) 
+        {
+
+            if (index < _gunStats.Count) _gunStats[index].MaxChamber += value;
+            AmmoUIManager.Instance.ModifyBullets(_gunStats[index].Chamber, _gunStats[index].MaxChamber);
+        }
         public void GetShotgun() => guns.Add(_shotGun);
+        public void ModifyOverheatingRate(float value) => _overheatingRate -= value;
     }
 }

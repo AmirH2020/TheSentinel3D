@@ -31,7 +31,7 @@ public class AmmoUIManager : Singleton<AmmoUIManager>
         _bullets.Clear();
         for(int i = 0; i < maxChamber; i++)
         {
-            var g = Instantiate(_bulletImage,transform);
+            var g = Instantiate(_bulletImage, _ammoObjectUI.transform);
             _bullets.Add(g.GetComponent<RawImage>());
             g.GetComponent<RawImage>().enabled = true;
         }
