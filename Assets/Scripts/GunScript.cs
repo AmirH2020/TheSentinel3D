@@ -10,12 +10,13 @@ namespace TheSentinel.Cores
     public class GunScript : Singleton<GunScript>
     {
 
-        [SerializeField] private float _switchGunTime, _maxOverheat;
+        [SerializeField] private float _switchGunTime, _maxOverheat,_coolingDownValue;
         [SerializeField] private KeyCode _switchGunKey;
         [SerializeField] private List<Gun> guns = new List<Gun>() , allGuns = new List<Gun>();
         [SerializeField] private Gun _shotGun;
         [SerializeField] private Transform _gunPoint;
         [SerializeField] private Slider _reloadSlider;
+        [SerializeField] private TMP_Text _ammoText;
 
         private int _currentGunIndex,_bullets;
         private bool _reloading = false,_overheated;
@@ -38,20 +39,27 @@ namespace TheSentinel.Cores
             Reloading();
             CheckAndSwitchGuns();
 
+
             _fireRateTimer = Mathf.Max(0, _fireRateTimer - Time.deltaTime);
             _switchGunTimer = Mathf.Max(0, _switchGunTimer - Time.deltaTime);
 
             if (_overheat > 0 && !Input.GetMouseButton(0))
-                _overheat -= Time.deltaTime;
+                _overheat -= Time.deltaTime * _coolingDownValue;
             else if (_overheat <= 0)
                 _overheated = false;
             if (_overheat >= _maxOverheat)
                 _overheated = true;
 
-
+            _ammoText.gameObject.SetActive(PathChoice.ChoiceMade && PathChoice.InfinitePlayerHp);
+            _ammoText.text = string.Format($"AMMO : {_bullets}");
             if (PathChoice.ChoiceMade)
+            {
                 AmmoUIManager.Instance.DefineAmmoUI(PathChoice.InfiniteAmmo);
-            if(PathChoice.ChoiceMade && PathChoice.InfiniteAmmo)
+
+
+
+            }
+            if (PathChoice.ChoiceMade && PathChoice.InfiniteAmmo)
                 AmmoUIManager.Instance.ModifySlider(_overheat);
 
 

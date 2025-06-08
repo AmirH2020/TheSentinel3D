@@ -20,17 +20,14 @@ namespace TheSentinel.Skills
         [SerializeField] protected Button _upgradeButton;
         [SerializeField] private Color _canUpgradeColor, _cantUpgradeColor, _completedColor;
         private bool _completed;
-        
-
-
         private void Awake()
         {
             _skills.Clear();
             Initialize();
-            _currentSkill = _skills[0];
-
+            SkillPanelTexts();
             int abilityIndex = 0;
             int buttonIndex = 0;
+
             foreach(Button button in _skillButtons)
                 button.gameObject.SetActive(false);
 
@@ -58,9 +55,8 @@ namespace TheSentinel.Skills
         }
         public void Update()
         {
-            _completed = _currentSkill.Completed;
+            _completed = _currentSkill?.Completed ?? false;
             _skillPointText.text = GameManager.SkillPoint.ToString();
-            _currentSkillPrice.text = "Cost : " + _currentSkill.Price;
 
             foreach (Skill skill in _skills.Values)
                 skill.Update();
@@ -104,24 +100,27 @@ namespace TheSentinel.Skills
         {
             _currentSkill = skill;
             SkillPanelTexts();
-            ButtonUI();
-
+            if(_currentSkill != null)
+                ButtonUI();
         }
         public void SkillPanelTexts()
         {
-            _name.text = _currentSkill.Name;
-            _description.text = _currentSkill.Description;
-            _duration.text = _currentSkill is IDuration ? (_currentSkill as IDuration).GetDuration() : "";
-            _cooldown.text = _currentSkill is ICooldown ? (_currentSkill as ICooldown).GetCooldown() : "";
-            _details.text = _currentSkill is IDetails ? (_currentSkill as IDetails).GetDetails() : "";
-            _currentSkillPrice.text = "Cost : " + _currentSkill.Price;
+            _name.text = _currentSkill != null ? _currentSkill.Name : "";
+            _description.text = _currentSkill != null ? _currentSkill.Description : "";
+            _duration.text = _currentSkill != null ? _currentSkill is IDuration ? (_currentSkill as IDuration).GetDuration() : "" : "";
+            _cooldown.text = _currentSkill != null ? _currentSkill is ICooldown ? (_currentSkill as ICooldown).GetCooldown() : "" : "";
+            _details.text = _currentSkill != null ? _currentSkill is IDetails ? (_currentSkill as IDetails).GetDetails() : "" : "";
+            _currentSkillPrice.text = _currentSkill != null ? ("Cost : " + _currentSkill.Price) : "";
         }
         public void Upgrade()
         {
+            if (_currentSkill == null)
+                return;
             if (_completed)
                 return;
             if (_currentSkill.Locked)
                 return;
+
             _currentSkill.Upgrade();
 
             SkillPanelTexts();
