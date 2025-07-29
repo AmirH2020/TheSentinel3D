@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace TheSentinel.Skills
 {
-    public class MachineGun : DurationAbility, IDuration, ICooldown
+    public class MachineGun : DurationAbility, IDuration, ICooldown, IFireRateSkill
     {
         public float FireRate { get; private set; }
         public override void Initiation()

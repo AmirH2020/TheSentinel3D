@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace TheSentinel.Skills
 {
-    public class Overdrive : DurationAbility, IDuration,ICooldown
+    public class Overdrive : DurationAbility, IDuration,ICooldown, IFireRateSkill
     {
         private bool innateGiven;
         public override void Initiation()

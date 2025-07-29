@@ -13,7 +13,10 @@ namespace TheSentinel.Skills
     {
         public static Skill _currentSkill { get; private set; }
 
-        private static Dictionary<int, Skill> _skills = new Dictionary<int, Skill>();
+        public static bool _skillConditionsAdded { get; private set; } = false;
+
+        private static List<Skill> _skills = new List<Skill>();
+        //private static Dictionary<int, Skill> _skills = new Dictionary<int, Skill>();
         [SerializeField] private TMP_Text _name, _description, _duration, _cooldown, _details, _upgradeButtonText, _skillPointText, _currentSkillPrice;
         [SerializeField] private List<Button> _skillButtons;
         [SerializeField] private List<AbilityUI> abilityUIs;
@@ -30,8 +33,14 @@ namespace TheSentinel.Skills
 
             foreach(Button button in _skillButtons)
                 button.gameObject.SetActive(false);
+            for(int i = 0; i < _skills.Count; i++)
+            {
+                _skills.Add(_skills[i]);
+                _skills.RemoveAt(i);
+            }
 
-            foreach (Skill skill in _skills.Values)
+
+            foreach (Skill skill in _skills)
             {
                 if (skill is Ability && abilityIndex < abilityUIs.Count)
                 {
@@ -55,12 +64,24 @@ namespace TheSentinel.Skills
         }
         public void Update()
         {
+            int buttonIndex = 0;
             _completed = _currentSkill?.Completed ?? false;
             _skillPointText.text = GameManager.SkillPoint.ToString();
 
-            foreach (Skill skill in _skills.Values)
+            foreach (Skill skill in _skills)
+            {
+                if (buttonIndex < _skillButtons.Count)
+                {
+                    var originalColor = _skillButtons[buttonIndex].gameObject.GetComponent<RawImage>().color;
+                    originalColor = new Color(originalColor.r,originalColor.g,originalColor.b,1);
+                    var fadedColor = new Color(originalColor.r, originalColor.g, originalColor.b, 0.5f);
+                    _skillButtons[buttonIndex].gameObject.GetComponent<RawImage>().color = skill.Locked ? fadedColor : originalColor;
+                    buttonIndex++;
+                }
                 skill.Update();
-
+            }
+            if(!_skillConditionsAdded)
+                _skillConditionsAdded = true;
         }
         public void Initialize()
         {
@@ -68,12 +89,10 @@ namespace TheSentinel.Skills
                         .GetTypes()
                         .Where(t => t.IsSubclassOf(typeof(Skill)) && !(t.IsAbstract))
                         .ToArray();
-            int id = 0;
             foreach (var skillType in skillTypes)
             {
                 Skill skill = Activator.CreateInstance(skillType) as Skill;
-                _skills.Add(id,skill);
-                id++;
+                _skills.Add(skill);
             }
         }
         private void ButtonUI()
@@ -126,7 +145,9 @@ namespace TheSentinel.Skills
             SkillPanelTexts();
             ButtonUI();
         }
-        public static T GetSkill<T>() where T : Skill => _skills.Values.OfType<T>().FirstOrDefault();
+
+        public static T? GetSkill<T>() where T : Skill => _skills.OfType<T>().Where(t => t.Available).FirstOrDefault();
+        public static Skill? GetSkillFromInterface<T>() => _skills.Where(t => t is T && t.Available).FirstOrDefault();
 
     }
 }

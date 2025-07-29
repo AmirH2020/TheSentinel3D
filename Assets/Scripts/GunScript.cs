@@ -77,7 +77,7 @@ namespace TheSentinel.Cores
         }
         private void SwitchGun()
         {
-            if (SkillManager.GetSkill<MachineGun>().isActive || SkillManager.GetSkill<MechanicalShotgun>().isActive)
+            if (SkillManager.GetSkill<MachineGun>()?.isActive ?? false || (SkillManager.GetSkill<MechanicalShotgun>()?.isActive ?? false))
                 return;
 
             if (!_reloading && _switchGunTimer <= 0)
@@ -128,7 +128,7 @@ namespace TheSentinel.Cores
             _fireRateTimer = noMachineGun ? _gunStats[_currentGunIndex].FireRate - _gunStats[_currentGunIndex].TempFireRate :
                 _machineGun.isActive ? ((MachineGun)_machineGun).FireRate : ((MechanicalShotgun)_mechanicalShotgun).FireRate;
 
-            if (PathChoice.InfinitePlayerHp)
+            if (PathChoice.InfinitePlayerHp && noMachineGun)
             {
                 _gunStats[_currentGunIndex].Chamber--;
                 AmmoUIManager.Instance.AmmoReduce();

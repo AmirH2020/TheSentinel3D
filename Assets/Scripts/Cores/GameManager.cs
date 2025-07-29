@@ -5,7 +5,7 @@ namespace TheSentinel.Cores
 {
     public class GameManager : Singleton<GameManager>
     {
-        public static int SkillPoint { get; private set; } = 10;
+        public static int SkillPoint { get; private set; } = 0;
         public static int Score { get; private set; } = 0;
         public static bool OnSkillTree { get; private set; } = false;
         public static bool OnPathPanel { get; private set; } = true;   
@@ -14,6 +14,13 @@ namespace TheSentinel.Cores
         private static bool _lost = false;
         
         private bool _manualPause;
+
+        [SerializeField] private int _startingSkillPoint;
+
+        private void Awake()
+        {
+            SkillPoint = _startingSkillPoint;
+        }
 
         private void Update()
         {

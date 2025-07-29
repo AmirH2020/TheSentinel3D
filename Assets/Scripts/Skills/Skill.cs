@@ -1,6 +1,7 @@
 using TheSentinel.Cores;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 namespace TheSentinel.Skills
 {
     public abstract class Skill
@@ -12,11 +13,14 @@ namespace TheSentinel.Skills
         public int Price { get; protected set; }
         public bool Completed => _level >= _maxLevel;
         public Button button { get; private set; }
-
-        public bool Locked;
+        public bool Locked {  get; protected set; }
+        public bool Available {  get; protected set; }
         public bool HaveSkill { get; protected set; }
         public abstract void Initiation();
         public abstract void Update();
+
+        public List<Skill> RequiredSkills = new List<Skill>();
+
         protected virtual void Initiate(int maxLevel)
         {
             _level = 0;
@@ -33,7 +37,8 @@ namespace TheSentinel.Skills
         {
             if (PathChoice.ChoiceMade)
             {
-                button?.gameObject.SetActive((inPlayerHpPath && PathChoice.InfinitePlayerHp) || (inInfiniteAmmoPath && PathChoice.InfiniteAmmo));
+                Available = (inPlayerHpPath && PathChoice.InfinitePlayerHp) || (inInfiniteAmmoPath && PathChoice.InfiniteAmmo);
+                button?.gameObject.SetActive(Available);
             }
         }
         public virtual void GetSkill() { }

@@ -23,13 +23,13 @@ namespace TheSentinel.Skills
             PathChoiceSkill(false, true);
 
             var ui = UIManager.Instance;
-            ui.TogglePanel(ui.SyringePanel, TowerScript.PlayerInRange && HaveSkill);
+            ui.TogglePanel(ui.SyringePanel, TowerScript.PlayerInRange && HaveSkill && !GameManager.OnPause);
 
             if (TowerScript.PlayerInRange && HaveSkill)
             {
-                if (Input.GetKey(KeyCode.Alpha1))
+                if (Input.GetKey(KeyCode.T))
                     Modify(TowerScript.Instance.GetHPManager(), PlayerScript.Instance.GetHPManager());
-                else if (Input.GetKey(KeyCode.Alpha2))
+                else if (Input.GetKey(KeyCode.Y))
                     Modify(PlayerScript.Instance.GetHPManager(), TowerScript.Instance.GetHPManager());
             }
         }

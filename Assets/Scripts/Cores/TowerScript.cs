@@ -34,6 +34,9 @@ namespace TheSentinel.Cores
         }
         private void OnTriggerEnter(Collider other) => TogglePlayerInRange(other);
         private void OnTriggerStay(Collider other) => TogglePlayerInRange(other);
+
+
+
         private void OnTriggerExit(Collider other)
         {
             if (other.CompareTag("Player"))
@@ -56,7 +59,7 @@ namespace TheSentinel.Cores
         }
         private static void TogglePlayerInRange(Collider other)
         {
-            if (other.CompareTag("Player") && SkillManager.GetSkill<HpTransfer>().HaveSkill)
+            if (other.CompareTag("Player") && (SkillManager.GetSkill<HpTransfer>()?.HaveSkill ?? false))
                 PlayerInRange = true;
         }
         public void ActiveTurret(int index)
