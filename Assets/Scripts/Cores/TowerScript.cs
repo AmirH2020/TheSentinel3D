@@ -11,6 +11,9 @@ namespace TheSentinel.Cores
 
         [SerializeField] private List<GameObject>  turrets = new List<GameObject>();
         public static bool PlayerInRange = false;
+
+        [SerializeField] private LayerMask layermask;
+
         public bool HaveAnyTurret {  get; private set; }
         public TowerHPManager hpManager { get; private set; }
 
@@ -44,13 +47,19 @@ namespace TheSentinel.Cores
         }
         private void TransparentTower()
         {
-            RaycastHit hit;
+            var distance = Vector2.Distance(Camera.main.transform.position, PlayerScript.Instance.transform.position);
             var dir = PlayerScript.Instance.transform.position - Camera.main.transform.position;
-            if (Physics.Raycast(Camera.main.transform.position, dir, out hit))
+
+            if (Physics.Raycast(Camera.main.transform.position, dir, Mathf.Infinity,layermask,QueryTriggerInteraction.Ignore))
             {
-                var alpha = !hit.collider.CompareTag("Player") ? 0.3f : 1;
-                Fade(alpha);
+                
+                Fade(0.3f);
             }
+            else
+            {
+                Fade(1);
+            }
+
         }
         private void Fade(float alpha)
         {
@@ -77,6 +86,15 @@ namespace TheSentinel.Cores
             foreach (GameObject turret in turrets)
                 turret.GetComponent<TurretScript>().ModifyDamage(value);
         }
-        public HPManager GetHPManager() => hpManager;       
+        public HPManager GetHPManager() => hpManager;
+
+
+        public void OnDrawGizmosSelected()
+        {
+            Ray ray = new(Camera.main.transform.position, PlayerScript.Instance.transform.position - Camera.main.transform.position);
+
+            Gizmos.DrawLine(Camera.main.transform.position, PlayerScript.Instance.transform.position);
+            //Gizmos.DrawRay(ray);
+        }
     }
 }

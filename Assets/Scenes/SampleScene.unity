@@ -616,7 +616,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 61519310}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GunPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1828,7 +1828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 229590335}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GunPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2462,7 +2462,7 @@ GameObject:
   - component: {fileID: 286949849}
   - component: {fileID: 286949848}
   - component: {fileID: 286949850}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9514,7 +9514,7 @@ GameObject:
   - component: {fileID: 1173801491}
   - component: {fileID: 1173801492}
   - component: {fileID: 1173801494}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tower Right Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10273,7 +10273,7 @@ GameObject:
   - component: {fileID: 1219140299}
   - component: {fileID: 1219140302}
   - component: {fileID: 1219140301}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11591,7 +11591,7 @@ GameObject:
   - component: {fileID: 1321623420}
   - component: {fileID: 1321623419}
   - component: {fileID: 1321623418}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Tower Right Turret (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11688,7 +11688,7 @@ GameObject:
   - component: {fileID: 1333860883}
   - component: {fileID: 1333860885}
   - component: {fileID: 1333860884}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17937,7 +17937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71408240549dcc64aa5c1263094d73fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingSkillPoint: 5
+  _startingSkillPoint: 0
 --- !u!114 &1561074711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20038,7 +20038,7 @@ GameObject:
   - component: {fileID: 1834694294}
   - component: {fileID: 1834694293}
   - component: {fileID: 1834694295}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
