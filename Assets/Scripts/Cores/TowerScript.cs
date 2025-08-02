@@ -50,15 +50,9 @@ namespace TheSentinel.Cores
             var distance = Vector2.Distance(Camera.main.transform.position, PlayerScript.Instance.transform.position);
             var dir = PlayerScript.Instance.transform.position - Camera.main.transform.position;
 
-            if (Physics.Raycast(Camera.main.transform.position, dir, Mathf.Infinity,layermask,QueryTriggerInteraction.Ignore))
-            {
-                
-                Fade(0.3f);
-            }
-            else
-            {
-                Fade(1);
-            }
+            bool hit = Physics.Raycast(Camera.main.transform.position, dir, Mathf.Infinity, layermask, QueryTriggerInteraction.Ignore);
+            Fade(hit ? 0.3f : 1);
+
 
         }
         private void Fade(float alpha)
