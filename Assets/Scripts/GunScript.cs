@@ -20,7 +20,7 @@ namespace TheSentinel.Cores
 
         private int _currentGunIndex,_bullets;
         private bool _reloading = false,_overheated;
-        private float _reloadTimer, _fireRateTimer, _switchGunTimer,_overheat, _overheatingRate = 1;
+        private float _reloadTimer, _fireRateTimer, _switchGunTimer,_overheat, _overheatingRate = 2.5f;
         private List<GunStats> _gunStats = new List<GunStats>();
         private Ability _machineGun,_mechanicalShotgun;
 
@@ -61,6 +61,21 @@ namespace TheSentinel.Cores
 
             if (Input.GetKeyDown(_switchGunKey)) SwitchGun();
             if (Input.GetMouseButton(0)) Shoot();
+            if (Input.GetMouseButtonDown(0))
+            {
+                OverHeatingPunish();
+            }
+        }
+        private void OverHeatingPunish()
+        {
+            if (GameManager.OnPause)
+                return;
+            if (_overheated)
+                return;
+            var noMachineGun = !(_machineGun?.isActive ?? false) && !(_mechanicalShotgun?.isActive ?? false);
+            if (noMachineGun && _gunStats[_currentGunIndex].Chamber <= 0 || _reloading)
+                return;
+            _overheat += 1;
         }
         private void CheckAndSwitchGuns()
         {
@@ -117,12 +132,23 @@ namespace TheSentinel.Cores
         }
         private void Shoot()
         {
-            if (GameManager.OnPause || _fireRateTimer > 0)
+
+            if (GameManager.OnPause)
                 return;
             if (_overheated)
                 return;
             var noMachineGun = !(_machineGun?.isActive ?? false) && !(_mechanicalShotgun?.isActive ?? false);
             if (noMachineGun && _gunStats[_currentGunIndex].Chamber <= 0 || _reloading)
+                return;
+
+
+
+            if (PathChoice.InfiniteAmmo)
+            {
+                _overheat += Time.deltaTime * _overheatingRate;
+            }
+
+            if (_fireRateTimer > 0)
                 return;
 
             _fireRateTimer = noMachineGun ? _gunStats[_currentGunIndex].FireRate - _gunStats[_currentGunIndex].TempFireRate :
@@ -133,10 +159,8 @@ namespace TheSentinel.Cores
                 _gunStats[_currentGunIndex].Chamber--;
                 AmmoUIManager.Instance.AmmoReduce();
             }
-            else
-            {
-                _overheat += _overheatingRate;
-            }
+
+            
             Vector3 r = transform.rotation.eulerAngles;
             r.Set(r.x, r.y + 90, r.z);
             Quaternion rotation = Quaternion.Euler(r);

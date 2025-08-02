@@ -38,8 +38,6 @@ namespace TheSentinel.Cores
         private void OnTriggerEnter(Collider other) => TogglePlayerInRange(other);
         private void OnTriggerStay(Collider other) => TogglePlayerInRange(other);
 
-
-
         private void OnTriggerExit(Collider other)
         {
             if (other.CompareTag("Player"))
@@ -52,8 +50,6 @@ namespace TheSentinel.Cores
 
             bool hit = Physics.Raycast(Camera.main.transform.position, dir, Mathf.Infinity, layermask, QueryTriggerInteraction.Ignore);
             Fade(hit ? 0.3f : 1);
-
-
         }
         private void Fade(float alpha)
         {
@@ -81,14 +77,5 @@ namespace TheSentinel.Cores
                 turret.GetComponent<TurretScript>().ModifyDamage(value);
         }
         public HPManager GetHPManager() => hpManager;
-
-
-        public void OnDrawGizmosSelected()
-        {
-            Ray ray = new(Camera.main.transform.position, PlayerScript.Instance.transform.position - Camera.main.transform.position);
-
-            Gizmos.DrawLine(Camera.main.transform.position, PlayerScript.Instance.transform.position);
-            //Gizmos.DrawRay(ray);
-        }
     }
 }
