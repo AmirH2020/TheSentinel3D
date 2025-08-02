@@ -45,7 +45,7 @@ namespace TheSentinel
 
             _moveSpeed = 2.1f / temp;
             _shootTime = 0.6f * temp;
-            _bulletScript.SetDamage((int)(2.2f * temp));
+            _bulletScript.SetDamage((int)(1.9f * temp));
 
             _score = (int)(20 * temp);
 
@@ -70,7 +70,6 @@ namespace TheSentinel
         private void LookAtTarget()
         {
 
-            
             Vector3 PlayerPos = _shootTargets[_targetIndex].position;
 
             Vector3 pos = PlayerPos - transform.position;
@@ -98,7 +97,7 @@ namespace TheSentinel
         public void AssignLevelStats(int l)
         {
             _shootTime -= 0.01f * l;
-            _bulletScript.ModifyDamage((int)(0.07 * l));
+            _bulletScript.ModifyDamage((int)(0.06 * l));
             hpManager.SetMaxHp(hpManager.MaxHP + 2 * l);
             _score += 5 * l;
             hpManager.SetHp(hpManager.MaxHP);

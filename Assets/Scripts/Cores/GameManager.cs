@@ -33,8 +33,10 @@ namespace TheSentinel.Cores
         }
         private static void SkillPanelLogic()
         {
-            if (Input.GetKeyDown(KeyCode.Space) && (OnPause == OnSkillTree))
+            if ((Input.GetKeyDown(KeyCode.Space)) && (OnPause == OnSkillTree))
                 OnSkillTree = !OnSkillTree;
+            if (Input.GetKeyDown(KeyCode.Escape) && OnSkillTree)
+                OnSkillTree = false;
             var ui = UIManager.Instance;
             ui.TogglePanel(ui.SkillPanel, OnSkillTree);
         }
