@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TheSentinel
+namespace TheSentinel.Guns
 {
     [CreateAssetMenu(fileName = "gun", menuName = "Gun")]
     public class Gun : ScriptableObject

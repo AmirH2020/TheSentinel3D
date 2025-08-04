@@ -1,4 +1,5 @@
 ﻿using TheSentinel.Cores;
+using TheSentinel.Guns;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,8 +21,8 @@ namespace TheSentinel.Skills
             base.Update();
             PathChoiceSkill(inPlayerHpPath: false, inInfiniteAmmoPath: true);
 
-            GunScript.Instance.ModifyFireRateTemporarily(isActive ? 0.15f : 0, 0);
-            GunScript.Instance.ModifyFireRateTemporarily(isActive ? 0.15f : 0, 1);
+            GunController.Instance.ModifyFireRateTemporarily(isActive ? 0.15f : 0, 0);
+            GunController.Instance.ModifyFireRateTemporarily(isActive ? 0.15f : 0, 1);
 
 
             if (PathChoice.ChoiceMade && !innateGiven && PathChoice.InfiniteAmmo)

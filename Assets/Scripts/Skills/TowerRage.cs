@@ -2,6 +2,7 @@
 using TMPro;
 using TheSentinel.Cores;
 using UnityEngine;
+using TheSentinel.Guns;
 namespace TheSentinel.Skills
 {
     public class TowerRage : Skill, IDetails
@@ -54,10 +55,10 @@ namespace TheSentinel.Skills
 
         private void ApplyModifiers(float damage,float fireRate,float moveSpeed)
         {
-            GunScript.Instance.ModifyDamageTemporarily(damage, 0);
-            GunScript.Instance.ModifyDamageTemporarily(damage, 1);
-            GunScript.Instance.ModifyFireRateTemporarily(fireRate, 0);
-            GunScript.Instance.ModifyFireRateTemporarily(fireRate, 1);
+            GunController.Instance.ModifyDamageTemporarily(damage, 0);
+            GunController.Instance.ModifyDamageTemporarily(damage, 1);
+            GunController.Instance.ModifyFireRateTemporarily(fireRate, 0);
+            GunController.Instance.ModifyFireRateTemporarily(fireRate, 1);
             PlayerScript.Instance.ModifyMoveSpeedTemporarily(moveSpeed, 0);
             PlayerScript.Instance.ModifyMoveSpeedTemporarily(moveSpeed, 1);
         }

@@ -1,6 +1,6 @@
-﻿using TheSentinel.Cores;
+﻿using TheSentinel.Guns;
 using UnityEngine;
-namespace TheSentinel.Skills
+namespace TheSentinel.Cores
 {
     public class SkillComponents : Singleton<SkillComponents>
     {

@@ -1,4 +1,5 @@
 ﻿using TheSentinel.Cores;
+using TheSentinel.Guns;
 using UnityEngine;
 namespace TheSentinel.Skills
 {
@@ -34,15 +35,15 @@ namespace TheSentinel.Skills
         public override void GetSkill()
         {
             HaveSkill = true;
-            GunScript.Instance.GetShotgun();
+            GunController.Instance.GetShotgun();
         }
 
         public override void UpgradeSkill()
         {
             _fireRate -= _fireRateUpgrade;
             _reloadTime -= _reloadTimeUpgrade;
-            GunScript.Instance.ModifyFireRate(_fireRateUpgrade,1);
-            GunScript.Instance.ModifyReloadTime(_reloadTimeUpgrade,1);
+            GunController.Instance.ModifyFireRate(_fireRateUpgrade,1);
+            GunController.Instance.ModifyReloadTime(_reloadTimeUpgrade,1);
         }
         public string GetDetails() => _details;
     }

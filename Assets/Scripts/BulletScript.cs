@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using TheSentinel.Cores;
+﻿using TheSentinel.Cores;
+using TheSentinel.Guns;
+using UnityEngine;
 
 namespace TheSentinel
 {
@@ -34,7 +35,7 @@ namespace TheSentinel
                 Enemy enemy;
                 other.TryGetComponent<Enemy>(out enemy);
                 if (entity.HP > 1)
-                    enemy.DamageEffect(GunScript.Instance?.transform.rotation ?? Quaternion.identity);
+                    enemy.DamageEffect(GunController.Instance?.transform.rotation ?? Quaternion.identity);
 
                 Destroy(gameObject);
             }

@@ -1,6 +1,7 @@
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
+using TheSentinel.Guns;
 
 namespace TheSentinel.Cores
 {
@@ -84,7 +85,7 @@ namespace TheSentinel.Cores
             }
             if (collision.CompareTag("AMMO"))
             {
-                GunScript.Instance.AddAmmo(_ammoDropValue);
+                GunController.Instance.AddAmmo(_ammoDropValue);
                 Destroy(collision.gameObject);
             }
         }
