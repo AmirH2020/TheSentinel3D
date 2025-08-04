@@ -32,7 +32,7 @@ namespace TheSentinel
                 GameManager.ModifySkillPoint(1);
                 GameManager.SetScore(0);
                 _scoreSlider.value = 0;
-                _scoreSlider.maxValue += 40 * SpawnerScript._enemyWaveManager.Wave;
+                _scoreSlider.maxValue += 20 * SpawnerScript._enemyWaveManager.Wave;
                 _newPoint = true;
             }
 

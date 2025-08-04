@@ -8,14 +8,13 @@ namespace TheSentinel
 {
     public class WaveManager
     {
-
         public int CrashEnemiesNeedToSpawn {  get; private set; }
         public int EnemiesRemaining {  get; private set; }
         public int Wave {  get; private set; }
         public float WaveTimer { get; private set; }
 
         private bool _waveTimerStarted,_waiting;
-        private int[] _numOfEnemiesInWaves = new int[] { 4, 6, 9, 11 };
+        private int[] _numOfEnemiesInWaves = new int[] { 3, 5, 8, 10 };
         private int _crashEnemiesInWaves = 2;
         private TMP_Text _waveText;
         private MonoBehaviour _mono;
@@ -43,7 +42,7 @@ namespace TheSentinel
         }
         public void StartWaveTimer()
         {
-            WaveTimer = 5;
+            WaveTimer = 5 + Wave * 1.5f;
             _waveTimerStarted = true;
         }
 
@@ -60,14 +59,14 @@ namespace TheSentinel
         public IEnumerator StartNextWave()
         {
             _waiting = true;
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(3);
 
             UpgradeScript obj =(UpgradeScript) Object.FindAnyObjectByType(typeof(UpgradeScript));
 
             obj?.Upgrading();
 
 
-            EnemiesRemaining = Wave < 4 ? _numOfEnemiesInWaves[Wave] : 5 * Wave;
+            EnemiesRemaining = Wave < 4 ? _numOfEnemiesInWaves[Wave] : 4 * Wave;
 
             Wave++;
 

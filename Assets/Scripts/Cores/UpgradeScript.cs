@@ -20,7 +20,6 @@ namespace TheSentinel.Cores
         {
             if (PathChoice.ChoiceMade && !_listsInitiated)
                 InitiateLists();
-            if( _listsInitiated && Input.GetKeyDown(KeyCode.V)) Upgrading();
             checkCondition();
         }
         public void Upgrading()

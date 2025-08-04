@@ -97,8 +97,8 @@ namespace TheSentinel
         public void AssignLevelStats(int l)
         {
             _shootTime -= 0.01f * l;
-            _bulletScript.ModifyDamage((int)(0.06 * l));
-            hpManager.SetMaxHp(hpManager.MaxHP + 2 * l);
+            _bulletScript.ModifyDamage((int)(0.03 * l));
+            hpManager.SetMaxHp(hpManager.MaxHP + 1.5f * l);
             _score += 5 * l;
             hpManager.SetHp(hpManager.MaxHP);
         }

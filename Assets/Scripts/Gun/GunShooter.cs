@@ -53,8 +53,12 @@ namespace TheSentinel.Guns
             for (int i = 0; i < inventory.Guns[inventory.CurrentGunIndex].Spread; i++)
             {
                 float offset = Mathf.Pow(-1, i);
-                int counter = isSpreadEven ? i + 1 : i;
-                float angle = offset * counter * (15f / inventory.Guns[inventory.CurrentGunIndex].Spread);
+                int multiplier = i == 0 && !isSpreadEven ? 0 : 1;
+                int c = isSpreadEven ? 0 : 1;
+                int a = (i - c) / 2 + 1 * multiplier;
+
+                float angle = offset * a * (15f / inventory.Guns[inventory.CurrentGunIndex].Spread);
+
                 Quaternion rotation = Quaternion.Euler(baseRotation.x, baseRotation.y + angle, baseRotation.z);
                 Instantiate(inventory.CurrentGunStats.BulletObject, _gunPoint.position, rotation);
             }

@@ -33,7 +33,7 @@ namespace TheSentinel
         }
         private void SpawnEnemies(int level)
         {
-            int temp = Mathf.Min(_waveManager.Wave + 1, 4);
+            int temp = Mathf.Min(_waveManager.Wave + 1, 3);
             int enemiesSpawnedAtOnce = Random.Range(1, temp);
 
             for (int i = 0; i < enemiesSpawnedAtOnce; i++)
