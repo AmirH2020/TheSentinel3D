@@ -135,6 +135,7 @@ MonoBehaviour:
   _bullet: {fileID: 4686448324062027398, guid: f1a67050b14802a49a5b90f1ce0a8a28, type: 3}
   _drop: {fileID: 0}
   _gunPoint: {fileID: 4499116513442531369}
+  _targetText: {fileID: 0}
 --- !u!65 &3708096113790918958
 BoxCollider:
   m_ObjectHideFlags: 0

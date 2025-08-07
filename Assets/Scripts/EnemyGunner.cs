@@ -2,19 +2,31 @@ using TheSentinel.Cores;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 namespace TheSentinel
 {
+    public enum Target
+    {
+        Player,
+        Tower
+    }
     public class EnemyGunner : Enemy
     {
         [SerializeField] private GameObject _bullet;
         [SerializeField] private Drop _drop;
         [SerializeField] private Transform _gunPoint;
 
-        private int _score, _targetIndex;
+        private int _score;
+        private Target _targetIndex;
+
+        private Vector3 _target;
+
         private float _shootTime,_shootTimer;
-        private Transform[] _shootTargets = new Transform[2];
         private EnemyBullet _bulletScript;
+
+
+        Vector3 TowerPosition, PlayerPosition;
 
 
         Quaternion _shootRotation;
@@ -23,20 +35,24 @@ namespace TheSentinel
             base.Awake();
             _bulletScript = _bullet.GetComponent<EnemyBullet>();
 
-            _targetIndex = Random.Range(0,2);
-            
+            UpdatePositions();
+
+            float rand = Random.Range(0, 100);
             if (PathChoice.InfinitePlayerHp)
             {
-                float rand = Random.Range(0, 100);
-                if (rand > 40 && rand < 60)
-                    _targetIndex = 0;
-                else
-                    _targetIndex = 1;
-
+                _targetIndex = rand > 40 && rand < 60 ? Target.Player : Target.Tower;
+                _target = rand > 40 && rand < 60 ? PlayerPosition : TowerPosition;
+            }
+            else
+            {
+                _targetIndex = rand > 50 ? Target.Player : Target.Tower;
+                _target = rand > 50 ? PlayerPosition : TowerPosition;
             }
 
+
+
+
             _shootTimer = 2;
-            _shootTargets = new Transform[2] { PlayerScript.Instance.transform, TowerScript.Instance.transform };
             _stopDistance = Random.Range(3f, 5f);
 
             float temp = Random.Range(1f, 3f);
@@ -49,7 +65,15 @@ namespace TheSentinel
 
             _score = (int)(20 * temp);
 
-            hpManager.Initialize(6 * temp, _hpSlider,_hpText);
+            hpManager.Initialize(6 * temp, _hpSlider, _hpText);
+        }
+
+        private void UpdatePositions()
+        {
+            TowerPosition = TowerScript.Instance.transform.position;
+            TowerPosition.y = transform.position.y;
+            PlayerPosition = PlayerScript.Instance.transform.position;
+            PlayerPosition.y = transform.position.y;
         }
 
         public void Update()
@@ -57,22 +81,44 @@ namespace TheSentinel
             hpManager.HPUI();
             hpManager.HPLogic(Die);
             if (GameManager.OnPause) return;
+
             Moving();
-            LookAtTarget();
+            UpdatePositions();
+
+
+            bool shootingCondition = false;
+            var distanceToPlayer= Vector3.Distance(transform.position, PlayerPosition);
+            bool nearTower = Vector3.Distance(transform.position, TowerPosition) < 8f;
 
             _shootTimer = Mathf.Max(0 , _shootTimer - Time.deltaTime);
-            if (_shootTimer <= 0)
+
+
+
+            if(_targetIndex == Target.Player)
+            {
+                LookAtTarget(distanceToPlayer < 8 ? PlayerPosition : TowerPosition);
+                shootingCondition = distanceToPlayer < 8 ? true : false;
+            }
+            else
+            {
+                LookAtTarget(TowerPosition);
+            }
+
+
+            if (nearTower) shootingCondition = true;
+
+
+
+            if (shootingCondition && _shootTimer <= 0)
             {
                 Shoot();
                 _shootTimer = _shootTime;
             }
         }
-        private void LookAtTarget()
+        private void LookAtTarget(Vector3 target)
         {
-
-            Vector3 PlayerPos = _shootTargets[_targetIndex].position;
-
-            Vector3 pos = PlayerPos - transform.position;
+            Vector3 TargetPos = target;
+            Vector3 pos = TargetPos - transform.position;
             pos.y = 0;
             Quaternion rot = Quaternion.LookRotation(pos);
             var r = rot.eulerAngles;
@@ -84,10 +130,7 @@ namespace TheSentinel
             _shootRotation = Quaternion.Euler(r);
 
         }
-        void Shoot()
-        {
-            Instantiate(_bullet.gameObject, _gunPoint.position, _shootRotation);
-        }
+        void Shoot() => Instantiate(_bullet.gameObject, _gunPoint.position, _shootRotation);
         protected override void Die()
         {
             _drop?.RandomDrop(transform.position);
@@ -102,10 +145,8 @@ namespace TheSentinel
             _score += 5 * l;
             hpManager.SetHp(hpManager.MaxHP);
         }
-        protected override void ModifyDamage(float damage)
-        {
-            _bulletScript.ModifyDamage(damage);
-        }
+        protected override void ModifyDamage(float damage) => _bulletScript.ModifyDamage(damage);
+
 
     }
 }
