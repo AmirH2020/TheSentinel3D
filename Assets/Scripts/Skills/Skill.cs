@@ -8,6 +8,7 @@ namespace TheSentinel.Skills
     {
         public string Name { get; protected set; }
         public string Description { get; protected set; }
+        public string RequiredSkillsString  { get; protected set; }
 
         protected int _level, _maxLevel;
         public int Price { get; protected set; }

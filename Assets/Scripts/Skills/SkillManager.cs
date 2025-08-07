@@ -16,8 +16,7 @@ namespace TheSentinel.Skills
         public static bool _skillConditionsAdded { get; private set; } = false;
 
         private static List<Skill> _skills = new List<Skill>();
-        //private static Dictionary<int, Skill> _skills = new Dictionary<int, Skill>();
-        [SerializeField] private TMP_Text _name, _description, _duration, _cooldown, _details, _upgradeButtonText, _skillPointText, _currentSkillPrice;
+        [SerializeField] private TMP_Text _name, _description, _duration, _cooldown, _details, _upgradeButtonText, _skillPointText, _currentSkillPrice,_requiredSkills;
         [SerializeField] private List<Button> _skillButtons;
         [SerializeField] private List<AbilityUI> abilityUIs;
         [SerializeField] protected Button _upgradeButton;
@@ -130,6 +129,7 @@ namespace TheSentinel.Skills
             _cooldown.text = _currentSkill != null ? _currentSkill is ICooldown ? (_currentSkill as ICooldown).GetCooldown() : "" : "";
             _details.text = _currentSkill != null ? _currentSkill is IDetails ? (_currentSkill as IDetails).GetDetails() : "" : "";
             _currentSkillPrice.text = _currentSkill != null ? ("Cost : " + _currentSkill.Price) : "";
+            _requiredSkills.text = _currentSkill != null ? GetRequiredSkillString(_currentSkill.RequiredSkills) : "";
         }
         public void Upgrade()
         {
@@ -149,5 +149,21 @@ namespace TheSentinel.Skills
         public static T? GetSkill<T>() where T : Skill => _skills.OfType<T>().Where(t => t.Available).FirstOrDefault();
         public static Skill? GetSkillFromInterface<T>() => _skills.Where(t => t is T && t.Available).FirstOrDefault();
 
+        private string GetRequiredSkillString(List<Skill> skills)
+        {
+            if(skills.Count <= 0)
+                return "";
+
+            string value = "Unlock ";
+            var names = new List<string>();
+
+            foreach (var s in skills)
+                names.Add(s.Name);
+
+            value += string.Join(" and ", names);
+            value += " To Unlock";
+
+            return value;
+        }
     }
 }

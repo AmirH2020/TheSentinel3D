@@ -18551,7 +18551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71408240549dcc64aa5c1263094d73fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingSkillPoint: 0
+  _startingSkillPoint: 2
 --- !u!114 &1561074711
 MonoBehaviour:
   m_ObjectHideFlags: 0
